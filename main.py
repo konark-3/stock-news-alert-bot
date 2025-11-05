@@ -6,8 +6,12 @@ from email.message import EmailMessage
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
-EMAIL = "konnarkmalhottra@gmail.com"
-PASSWORD = "gjdtwsnhxvanyckn"
+account_sid = os.environ.get("ACCOUNT_SID")
+auth_token = os.environ.get("AUTH_TOKEN")
+EMAIL = os.environ.get("EMAIL")
+PASSWORD = os.environ.get("EMAIL_PASSWORD")
+api_key = os.environ.get("API_KEY")
+
 
 
 ## STEP 1: Use https://www.alphavantage.co
@@ -31,14 +35,12 @@ Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?.
 Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
 """
 
-account_sid = 'AC52f7e55dc2d35dc693d740ae6078fbd2'
-auth_token = '65dc673d43c126354b70592cfeedd9e1'
 
-response1 = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo")
+response1 = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=iu")
 data1 = response1.json()
 
 
-response2 = requests.get("https://newsapi.org/v2/everything?q=tesla&from=2024-06-23&sortBy=publishedAt&apiKey=1aa4ed1d9af24ac988b3749a34b436fd")
+response2 = requests.get("https://newsapi.org/v2/everything?q=tesla&from=2024-06-23&sortBy=publishedAt&apiKey=767X")
 data2 = response2.json()
 
 close_price_yesterday = float(data1["Time Series (Daily)"]['2024-07-17']['4. close'])
@@ -54,16 +56,16 @@ if percent > 2:
         descrip = data2['articles'][num]['description']
 
         message = client.messages.create(
-            from_='whatsapp:+14155238886',
+            from_='whatsapp:+1676',
             body=f'{STOCK} 🔺2%\n\nHeadline: {title}\n\nBrief: {descrip}',
-            to='whatsapp:+15879372064'
+            to='whatsapp:+11234'
         )
         print(message.sid)
 
         email_message = EmailMessage()
         email_message['Subject'] = f"🔺2%{STOCK}"
         email_message['From'] = EMAIL
-        email_message['To'] = "konnarkmalhottra@yahoo.com"
+        email_message['To'] = "xyz@yahoo.com"
         email_message.set_content(f"Headline: {title}\n\nBrief: {descrip}")
 
         with smtplib.SMTP("smtp.gmail.com") as connection:
